@@ -52,13 +52,15 @@ on:
 jobs:
   build-gradle-project:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4  # Checkout the code from the repository
+    steps: 
+    - name: Checkout project sources
+      uses: actions/checkout@v4
     - name: Setup Gradle
-      uses: gradle/setup-gradle@v3  # Configure Gradle for the build
-
-    - name: Build with Gradle
-      run: ./gradlew build  # Run the Gradle build command
+      uses: gradle/actions/setup-gradle@v3
+    # - name: Run build with Gradle Wrapper
+    #   run: ./gradlew build
+    - name: Build gradle lockfile
+      run: ./gradlew dependencies --write-locks
     - name: Upload Gradle Lock File
       uses: actions/upload-artifact@v3
       with:
