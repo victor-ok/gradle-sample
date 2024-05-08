@@ -39,8 +39,6 @@
 #           # and add it to your GitHub secrets.
 #           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
-
-# Name of this GitHub Actions workflow.
 name: Semgrep
 on:
 
