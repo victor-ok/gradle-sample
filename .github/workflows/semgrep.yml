@@ -56,30 +56,40 @@ jobs:
     - name: Checkout project sources
       uses: actions/checkout@v4
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+    # - name: Setup Gradle
+    #   uses: gradle/actions/setup-gradle@v3
 
-    - name: Build gradle lockfile and capture output
-      run: |
-        output=$(./gradlew build --write-locks)
-        echo "Gradle build output:"
-        echo "$output"
-      env:
-        output: ""
+    # - name: Build gradle lockfile and capture output
+    #   run: |
+    #     output=$(./gradlew build --write-locks)
+    #     echo "Gradle build output:"
+    #     echo "$output"
+    #   env:
+    #     output: ""
 
     - uses: actions/checkout@v3
     - name: Find lockfiles
       run: |
         lockfiles=$(find . -type f -name "*.lockfile")
         echo "Found lockfiles: $lockfiles"
+        if [ -z "$lockfiles" ]; then
+            echo "No .lockfile files found."
+          else
+            # Print the full directory path for each lockfile
+            echo "Found lockfiles:"
+            for file in $lockfiles; do
+              # Get the full path using dirname
+              full_path=$(dirname "$file")
+              echo "$full_path"
+            done
+          fi
       shell: bash
 
     - name: Upload lockfiles
       uses: actions/upload-artifact@v3
-      if: ${{ steps.Find-lockfiles.outputs != '' }}
       with:
         name: Gradle-Lockfiles
-        path: ${{ steps.Find-lockfiles.outputs }}
+        path: $full_path
 
   semgrep:
     needs: build-gradle-project
