@@ -7,6 +7,7 @@ mainClassName = 'app.Main'
 
 dependencies {
     compile project(':base')
+    compile project(':common')
 }
 
 task customFatJar(type: Jar) {
@@ -16,4 +17,7 @@ task customFatJar(type: Jar) {
     baseName = 'executable'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+}
+dependencyLocking {
+  lockAllConfigurations()
 }

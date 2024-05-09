@@ -55,12 +55,13 @@ jobs:
     steps: 
     - name: Checkout project sources
       uses: actions/checkout@v4
+
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
-    # - name: Run build with Gradle Wrapper
-    #   run: ./gradlew build
+
     - name: Build gradle lockfile
-      run: ./gradlew dependencies --write-locks
+      run: ./gradlew build --write-locks
+
     - name: Upload Gradle Lock File
       uses: actions/upload-artifact@v3
       with:
@@ -81,4 +82,4 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: gradlelockfile
-      - run: semgrep ci
+      - run: semgrep ci --supply-chain
