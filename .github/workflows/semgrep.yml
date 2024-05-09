@@ -62,11 +62,22 @@ jobs:
     - name: Build gradle lockfile
       run: ./gradlew build --write-locks
 
-    - name: Upload Gradle Lock File
+    - uses: actions/checkout@v3
+    - name: Find lockfiles
+      run: |
+        lockfiles=$(find . -type f -name "*.lock" -path "*/gradle/dependency-locks/*")
+        if [ -z "$lockfiles" ]; then
+          echo "No lockfiles found."
+        else
+          echo "Found lockfiles: $lockfiles"
+        fi
+      shell: bash
+    - name: Upload lockfiles (if any)
       uses: actions/upload-artifact@v3
+      if: ${{ steps.find-lockfiles.outputs != '' }}  # Only upload if lockfiles found
       with:
-        name: gradlelockfile
-        path: ./app/gradle.lockfile 
+        name: Gradle Lockfiles (specific)
+        path: ${{ steps.find-lockfiles.outputs }}
 
   semgrep:
     needs: build-gradle-project
