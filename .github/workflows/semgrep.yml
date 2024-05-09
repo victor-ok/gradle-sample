@@ -68,9 +68,9 @@ jobs:
         output: ""
 
     - uses: actions/checkout@v3
-    - name: Find lockfiles
+    - name: Find-lockfiles
       run: |
-        lockfiles=$(find . -type f -name "*.lock" -path "*/gradle/dependency-locks/*")
+        lockfiles=$(find . -type f -name "*.lock")
         if [ -z "$lockfiles" ]; then
           echo "No lockfiles found."
         else
