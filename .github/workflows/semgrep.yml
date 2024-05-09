@@ -68,14 +68,15 @@ jobs:
         output: ""
 
     - uses: actions/checkout@v3
-    - name: Find-lockfiles
+    - name: Find lockfiles
       run: |
         lockfiles=$(find . -type f -name "*.lockfile")
         echo "Found lockfiles: $lockfiles"
       shell: bash
     - name: Upload lockfiles
       uses: actions/upload-artifact@v3
-      if: ${{ steps.Find-lockfiles.outputs != '' }}  # Only upload if lockfiles found
+      if: ${{ steps.Find-lockfiles.outputs != '' }}
+        echo "${{ steps.Find-lockfiles.outputs" }}
       with:
         name: Gradle-Lockfiles
         path: ${{ steps.Find-lockfiles.outputs }}
@@ -95,3 +96,6 @@ jobs:
         with:
           name: Gradle-Lockfiles
       - run: semgrep ci --supply-chain
+
+
+
