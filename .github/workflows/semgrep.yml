@@ -71,11 +71,7 @@ jobs:
     - name: Find-lockfiles
       run: |
         lockfiles=$(find . -type f -name "*.lock")
-        if [ -z "$lockfiles" ]; then
-          echo "No lockfiles found."
-        else
-          echo "Found lockfiles: $lockfiles"
-        fi
+        echo "Found lockfiles: $lockfiles"
       shell: bash
     - name: Upload lockfiles (if any)
       uses: actions/upload-artifact@v3
