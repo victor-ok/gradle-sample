@@ -59,8 +59,13 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
 
-    - name: Build gradle lockfile
-      run: ./gradlew build --write-locks
+    - name: Build gradle lockfile and capture output
+      run: |
+        output=$(./gradlew build --write-locks)
+        echo "Gradle build output:"
+        echo "$output"
+      env:
+        output: ""
 
     - uses: actions/checkout@v3
     - name: Find lockfiles
@@ -76,7 +81,7 @@ jobs:
       uses: actions/upload-artifact@v3
       if: ${{ steps.find-lockfiles.outputs != '' }}  # Only upload if lockfiles found
       with:
-        name: Gradle Lockfiles (specific)
+        name: Gradle Lockfiles
         path: ${{ steps.find-lockfiles.outputs }}
 
   semgrep:
@@ -92,5 +97,5 @@ jobs:
       - name: Download artifact from previous job
         uses: actions/download-artifact@v3
         with:
-          name: gradlelockfile
+          name: Gradle Lockfiles
       - run: semgrep ci --supply-chain
