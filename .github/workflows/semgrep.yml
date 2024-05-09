@@ -75,11 +75,11 @@ jobs:
       shell: bash
     - name: Upload lockfiles
       uses: actions/upload-artifact@v3
-      if: ${{ steps.Find-lockfiles.outputs != '' }}
-        echo "${{ steps.Find-lockfiles.outputs" }}
+      if: ${{ steps.Find-lockfiles.lockfiles != '' }}
+        echo "${{ steps.Find-lockfiles.lockfiles }}"
       with:
         name: Gradle-Lockfiles
-        path: ${{ steps.Find-lockfiles.outputs }}
+        path: ${{ steps.Find-lockfiles.lockfiles }}
 
   semgrep:
     needs: build-gradle-project
