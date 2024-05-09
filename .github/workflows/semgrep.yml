@@ -77,7 +77,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: radle-Lockfiles
+        name: Gradle-Lockfiles
         path: |
           ./*/gradle/dependency-locks/*
 
