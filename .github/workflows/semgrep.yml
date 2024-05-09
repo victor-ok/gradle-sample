@@ -89,7 +89,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Gradle-Lockfiles
-        path: $full_path
+        path: ${{ steps.Find-lockfiles.outputs }}
 
   semgrep:
     needs: build-gradle-project
